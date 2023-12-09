@@ -1,0 +1,141 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: white;
+    
+  }
+  
+  .welcome {
+    text-align: center;
+    margin-top: 50px;
+  }
+  
+  .welcome h1 {
+    color: #82e56c;
+  }
+  
+  .option img {
+    width: 100%;
+    max-width: 400px;  /* Ajustez cette valeur selon vos besoins */
+    border-radius: 10px;
+    transition-duration: 0.5s;
+  }
+ 
+  
+  .options {
+    display: flex;
+    text-align: center;
+    margin-top: 5%;
+    margin-left: 3%;
+   
+  }
+  
+  
+  .option a {
+    text-decoration: none;
+    color: #258751;
+    display: block;
+    margin-top: 10px;
+    font-weight: bold;
+  }
+  
+
+  img.option{
+    box-shadow: 0px 10px 20px black;
+    margin: 0%;
+    transition-duration: 0.5s;
+  }
+
+  
+
+  .option{
+    transform: scale(1);
+    transition: 1s;
+   
+  }
+
+  .option:hover{
+    transform: scale(1.25);
+  }
+ 
+  table {
+    max-width: 900px;
+    border-collapse: collapse;
+    top: 10px;
+    margin-left: 20%;
+    margin-top: 10%;
+    
+}
+
+th, td {
+    border: 1px solid #aae1c5;
+    padding: 25px;
+    text-align: left;
+    padding-left: 60px;
+    padding-right: 70px;
+   
+    
+}
+
+th {
+    background-color: #b7f2ae;
+}
+
+.popup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1;
+}
+
+.add {
+  position: absolute;
+  margin-top: 400px;
+  left: 50%;
+  transform: translateX(-40%);
+  border: none;
+  height: 60px;
+  width: 100px;
+  background-color: #a3ee93;
+  font-size: 20px;
+  cursor: pointer;
+  border-radius: 10px;
+}
+
+.popup button {
+  background-color: #4CAF50; /* Vert */
+  color: white;
+  padding: 10px;
+  border: none;
+  cursor: pointer;
+  margin-top: 10px;
+  border-radius: 5px;
+}
+
+
+.popup form {
+  display: flex;
+  flex-direction: column;
+}
+
+
+.popup label {
+  margin-top: 10px;
+}
+
+.popup input {
+  padding: 8px;
+  margin-top: 5px;
+  border-radius: 5px;
+}
+
+
+.popup h2 {
+  margin-bottom: 10px;
+}
