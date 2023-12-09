@@ -1,7 +1,9 @@
-<?php
+ <?php
 include("db.php");
 include("contact-class.php");
 
+$contactManager = new Contact($conn);
+$allContacts = $contactManager->getAllContacts();
 
 ?>
 
@@ -51,8 +53,8 @@ include("contact-class.php");
     <div id="addContactPopup" class="popup">
         
         <h2>Ajouter un nouveau contact</h2>
-        <form method="POST" action="contact-class.php" onsubmit="addContact(); return false;">
-        <input type="hidden"  name="id" value="<?php echo $contact['id']; ?>">
+        <form  id="addContactForm" method="POST" action="" onsubmit="addContact(); return false;">
+        
 
             <label for="newFirstName">Prénom:</label>
             <input type="text"  name="prenom" required>
@@ -90,12 +92,55 @@ include("contact-class.php");
         
         function addContact() {
             
-            const newFirstName = document.getElementById('newFirstName').value;
-            const newLastName = document.getElementById('newLastName').value;
-            const newCategory = document.getElementById('newCategory').value;
-    
-            closePopup();
-        }
+            const form = document.getElementById('addContactForm');
+            const newFirstName = form.querySelector('[name="prenom"]').value;
+            const newLastName = form.querySelector('[name="nom"]').value;
+            const newCategory = form.querySelector('[name="categorie"]').value;
+
+    // Envoyer les données au serveur via une requête Ajax
+    // Exemple avec fetch :
+    fetch('contact-class.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: `prenom=${encodeURIComponent(newFirstName)}&nom=${encodeURIComponent(newLastName)}&categorie=${encodeURIComponent(newCategory)}`,
+    })
+    .then(response => response.json())
+    .then(data => {
+        // Traitement de la réponse du serveur si nécessaire
+        console.log(data);
+        closePopup();
+    })
+    .catch(error => {
+        console.error('Erreur lors de l\'ajout du contact :', error);
+    });
+
+    function updateTable(updatedContacts) {
+    const tbody = document.querySelector('table tbody');
+
+    // Supprimer toutes les lignes existantes du tableau
+    tbody.innerHTML = '';
+
+    // Ajouter les nouvelles lignes
+    updatedContacts.forEach(contact => {
+        const row = document.createElement('tr');
+        row.onclick = function() {
+            openContactPopup(contact.id, contact.nom, contact.prenom, contact.categorie);
+        };
+
+        const columns = ['id', 'nom', 'prenom', 'categorie'];
+        columns.forEach(column => {
+            const cell = document.createElement('td');
+            cell.textContent = contact[column];
+            row.appendChild(cell);
+        });
+
+        tbody.appendChild(row);
+    });
+}
+}
+
     
         function closePopup() {
             document.querySelector('table').style.display = 'block';
@@ -107,4 +152,4 @@ include("contact-class.php");
     
     
 </body>
-</html>
+</html> 

@@ -42,21 +42,26 @@ class Contact {
     public function updateContact($id, $nom, $prenom) {
         $query = "UPDATE contacts SET nom=:nom, prenom=:prenom WHERE id=:id";
         $query_run = $this->conn->prepare($query);
-
+    
         $data = [
             ':id' => $id,
             ':nom' => $nom,
             ':prenom' => $prenom
         ];
-
+    
         $query_execute = $query_run->execute($data);
-
-        return $query_execute;
+    
+        if ($query_execute) {
+            // Récupérer tous les contacts après la mise à jour
+            $updatedContacts = $this->getAllContacts();
+            return $updatedContacts;
+        } else {
+            return false;
+        }
     }
 }
 
 $contact = new Contact($conn);
-
 
 $contactManager = new Contact($conn);
 $allContacts = $contactManager->getAllContacts();
