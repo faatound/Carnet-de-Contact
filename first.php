@@ -5,7 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Acceuil</title>
-    <link rel="stylesheet" href="./index.css">
+    <link rel="stylesheet" href="./index.css?v=2">
+   
+   
 </head>
 <body>
     <div class="welcome">
@@ -15,15 +17,22 @@
       <div class="options">
         <div class="option">
           <img src="./undraw_Contact_us_re_4qqt (1).png" alt="Liste de Contacts">
-          <a href="list-contact.php">Liste de Contacts</a>
+          <button class="green-btn"><a href="list-contact.php">Liste de Contacts</a></button> 
         </div>
         <div class="option">
           <img src="./undraw_People_search_re_5rre (1).png" alt="Fiche de Contact">
-          <a href="edit.php">Fiche de Contact</a>
+         <button class="green-btn"><a href="edit.php">Fiche de Contact</a></button> 
         </div>
         <div class="option">
           <img src="./undraw_Profile_data_re_v81r.png" alt="Formulaire de Contact">
-          <a href="ajax.php">Formulaire de Contact</a>
+          <button class="green-btn"><a href="ajax.php">Formulaire de Contact</a></button>
         </div>
+        <script>
+      document.addEventListener("DOMContentLoaded", function() {
+    const title = document.querySelector(".welcome h1");
+    title.classList.add("loaded");
+});
+
+    </script>
 </body>
 </html>
