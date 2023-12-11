@@ -19,11 +19,11 @@
         </div>
         <div class="option">
           <img src="./undraw_People_search_re_5rre (1).png" alt="Fiche de Contact">
-          <a href="fiche-contact.html">Fiche de Contact</a>
+          <a href="edit.php">Fiche de Contact</a>
         </div>
         <div class="option">
           <img src="./undraw_Profile_data_re_v81r.png" alt="Formulaire de Contact">
-          <a href="form-contact.html">Formulaire de Contact</a>
+          <a href="ajax.php">Formulaire de Contact</a>
         </div>
 </body>
 </html>

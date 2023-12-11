@@ -1,9 +1,8 @@
  <?php
-include("db.php");
-include("contact-class.php");
 
-$contactManager = new Contact($conn);
-$allContacts = $contactManager->getAllContacts();
+include("db.php");
+include("code.php");
+
 
 ?>
 
@@ -13,143 +12,211 @@ $allContacts = $contactManager->getAllContacts();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="./index.css">
+    <style>
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f8f9fa;
+        margin: 0;
+        padding: 0;
+    }
+
+    .container {
+        margin: 20px;
+    }
+
+    h3{
+        color: #155724;
+    }
+
+    .card {
+        margin-top: 20px;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+
+    th, td {
+        padding: 12px;
+        text-align: left;
+        border-bottom: 1px solid #dee2e6;
+    }
+
+    th {
+        background-color: #82e56c;
+        color: #ffffff;
+    }
+
+    .btn-primary {
+        background-color: #82e56c;
+        color: #ffffff;
+        text-decoration: none;
+        padding: 8px 16px;
+        border-radius: 4px;
+        margin-top: 30px;
+        margin-right: 50%;
+    }
+
+    .float-end {
+        float: right;
+    }
+
+    .alert-success {
+        background-color: #d4edda;
+        border-color: #c3e6cb;
+        color: #155724;
+        padding: 8px 16px;
+        margin-bottom: 20px;
+        border-radius: 4px;
+    }
+
+    .popup-left {
+    margin-left: 20px;
+}
+
+.btn-green {
+    background-color:  #82e56c; 
+    color: #ffffff; 
+    border:none;
+    cursor: pointer;
+    padding: 10px 20px;
+}
+
+.edit-link{
+    text-decoration: none;
+    color: #ffffff; 
+}
+</style>
+
+
 </head>
 <body>
-    <button class="add" onclick="openAddContactPopup()">Ajouter</button>
+<div class="container">
+        <div class="row">
+            <div class="col-md-12 mt-4">
 
-    
-    <table>
-        <thead>
-        <tr>
-            <th onclick="sortTable(1)">Id</th>
-            <th onclick="sortTable(2)">Nom</th>
-            <th onclick="sortTable(3)">Prénom</th>
-            <th onclick="sortTable(4)">Catégorie</th>
-        </tr>
-        </thead>
-        <tbody>
-        <?php foreach ($allContacts as $contact): ?>
-            <tr onclick="openContactPopup('<?php echo $contact['id']; ?>', '<?php echo $contact['nom']; ?>', '<?php echo $contact['prenom']; ?>', '<?php echo $contact['categorie']; ?>')">
-                <td><?php echo $contact['id']; ?></td>
-                <td><?php echo $contact['nom']; ?></td>
-                <td><?php echo $contact['prenom']; ?></td>
-                <td><?php echo $contact['categorie']; ?></td>
-            </tr>
-        <?php endforeach; ?>
-        </tbody>
-    </table>
-    
-    <!-- Popup pour afficher la fiche du contact -->
-    <div id="contactPopup" class="popup">
-        <!-- Contenu de la fiche du contact -->
-        <h2 id="popupTitle"></h2>
-        <p id="popupContent"></p>
-        <button onclick="closePopup()">Fermer</button>
-        <button name="uptade-btn" >Editer</button>
-    </div>
-    
-    
-    <div id="addContactPopup" class="popup">
-        
-        <h2>Ajouter un nouveau contact</h2>
-        <form  id="addContactForm" method="POST" action="" onsubmit="addContact(); return false;">
-        
+            <?php if(isset($_SESSION['message'])) : ?>
+                <h5 class="alert alert-sucess"><?= $_SESSION['message']; ?></h5>
+                <?php endif; ?>
 
-            <label for="newFirstName">Prénom:</label>
-            <input type="text"  name="prenom" required>
-            <br>
-            <label for="newLastName">Nom:</label>
-            <input type="text"  name="nom" required>
-            <br>
-            <label for="newCategory">Catégorie:</label>
-            <input type="text"  name="categorie" required>
-            <br>
-            <button name="save-btn" type="submit">Enregistrer</button>
-            <button onclick="closePopup()">Fermer</button>
-        </form>
+                <?php unset($_SESSION['message']); ?>
+               
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Bienvenue dans votre liste de Contact </h3>
+                        <div class="card-body">
+                            
+                            <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nom</th>
+                                    <th>Prenom</th>
+                                    <th>Categorie</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                           
+                            <?php $query = "SELECT * FROM contacts";
+                            $statement = $conn->prepare($query);
+                            $statement->execute();
+
+                            $statement->setFetchMode(PDO::FETCH_OBJ);
+                            $result = $statement->fetchAll(PDO::FETCH_OBJ);
+
+                            if($result){
+                                foreach ($result as $row) {
+                                    ?>
+                                    <tr>
+                                        <td><?= $row->id; ?></td>
+                                        <td><?= $row->nom; ?></td>
+                                        <td><?= $row->prenom; ?></td>
+                                        <td><?= $row->categorie; ?></td>
+                                    </tr>
+                                    <?php
+
+                                }
+                            }
+                            else {
+                                ?>
+                                <tr> 
+                                    <td colspan=5 >No record found</td>
+                                </tr>
+                                 <?php
+                            }
+
+                             ?>
+                            </tbody>
+                            </table> 
+                            <a href="ajax.php" class="btn btn-primary float-end">Ajouter</a>
+                        </div>
+                        
+                       
+                    </div>
+                </div>
+            </div>
+        </div>
         
-       
         
     </div>
     
     <script>
-        // Fonction pour ouvrir la popup de fiche de contact
-        function openContactPopup(id, firstName, lastName, category) {
-    document.getElementById('popupTitle').innerText = `Contact ID: ${id}`;
-    document.getElementById('popupContent').innerText = `Nom: ${firstName} ${lastName}\nCatégorie: ${category}`;
-    document.getElementById('contactPopup').style.display = 'block';
-    
-}
-    
-        // Fonction pour ouvrir la popup d'ajout de contact
-        function openAddContactPopup() {
-            document.querySelector('table').style.display = 'none';
-            document.getElementById('addContactPopup').style.display = 'block';
 
-        }
-    
-        
-        function addContact() {
-            
-            const form = document.getElementById('addContactForm');
-            const newFirstName = form.querySelector('[name="prenom"]').value;
-            const newLastName = form.querySelector('[name="nom"]').value;
-            const newCategory = form.querySelector('[name="categorie"]').value;
-
-    // Envoyer les données au serveur via une requête Ajax
-    // Exemple avec fetch :
-    fetch('contact-class.php', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: `prenom=${encodeURIComponent(newFirstName)}&nom=${encodeURIComponent(newLastName)}&categorie=${encodeURIComponent(newCategory)}`,
-    })
-    .then(response => response.json())
-    .then(data => {
-        // Traitement de la réponse du serveur si nécessaire
-        console.log(data);
-        closePopup();
-    })
-    .catch(error => {
-        console.error('Erreur lors de l\'ajout du contact :', error);
-    });
-
-    function updateTable(updatedContacts) {
-    const tbody = document.querySelector('table tbody');
-
-    // Supprimer toutes les lignes existantes du tableau
-    tbody.innerHTML = '';
-
-    // Ajouter les nouvelles lignes
-    updatedContacts.forEach(contact => {
-        const row = document.createElement('tr');
-        row.onclick = function() {
-            openContactPopup(contact.id, contact.nom, contact.prenom, contact.categorie);
-        };
-
-        const columns = ['id', 'nom', 'prenom', 'categorie'];
-        columns.forEach(column => {
-            const cell = document.createElement('td');
-            cell.textContent = contact[column];
-            row.appendChild(cell);
-        });
-
-        tbody.appendChild(row);
-    });
-}
-}
-
-    
         function closePopup() {
-            document.querySelector('table').style.display = 'block';
-            document.getElementById('contactPopup').style.display = 'none';
-            document.getElementById('addContactPopup').style.display = 'none';
-        }
+                const overlay = document.querySelector(".overlay");
+                overlay.style.display = "none";
+            }
+        document.addEventListener("DOMContentLoaded", function () {
+            const tableRows = document.querySelectorAll("table tbody tr");
+
+            tableRows.forEach(row => {
+                row.addEventListener("click", () => {
+                    // Récupérez les données de la ligne (supposez que les données sont dans des cellules td)
+                    const id = row.querySelector("td:nth-child(1)").innerText;
+                    const nom = row.querySelector("td:nth-child(2)").innerText;
+                    const prenom = row.querySelector("td:nth-child(3)").innerText;
+                    const categorie = row.querySelector("td:nth-child(4)").innerText;
+
+                    // Afficher le popup avec les données
+                    showPopup({ id, nom, prenom, categorie });
+                });
+            });
+
+            function showPopup(contact) {
+                const overlay = document.querySelector(".overlay");
+                const popup = document.querySelector(".popup");
+
+                // Remplir les données dans le popup
+                popup.innerHTML = `
+                    <h3>Information du Contact</h3>
+                   
+                    <p><strong>Nom:</strong> ${contact.nom}</p>
+                    <p><strong>Prénom:</strong> ${contact.prenom}</p>
+                    <p><strong>Catégorie:</strong> ${contact.categorie}</p>
+                    <button onclick="closePopup()"  class="btn-green">Annuler</button>
+                    <button class="btn-green"> <a class="edit-link" href="edit.php?id=${contact.id}" >Éditer</a></button>
+                `;
+                popup.classList.add("popup-left");
+                // Afficher le popup
+                overlay.style.display = "flex";
+            }
+
+            function editContact(id) {
+    // Redirigez l'utilisateur vers edit.php avec l'ID du contact
+            window.location.href = `edit.php?id=${id}`;
+}
+        });
     </script>
 
-    
-    
+
+<div class="overlay">
+    <div class="popup"></div>
+</div>
+
+
+
 </body>
-</html> 
+</html>
+    
