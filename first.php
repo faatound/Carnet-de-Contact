@@ -5,7 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Acceuil</title>
-    <link rel="stylesheet" href="./index.css?v=2">
+    <link rel="stylesheet" href="./index.css">
+    
    
    
 </head>
@@ -16,22 +17,27 @@
       </div>
       <div class="options">
         <div class="option">
-          <img src="./undraw_Contact_us_re_4qqt (1).png" alt="Liste de Contacts">
-          <button class="green-btn"><a href="list-contact.php">Liste de Contacts</a></button> 
+          <img  src="Calling-cuate.png" alt="Liste de Contacts">
+          <button class="green-btn"><a href="list-contact.php" >Liste des Contacts</a></button> 
         </div>
         <div class="option">
-          <img src="./undraw_People_search_re_5rre (1).png" alt="Fiche de Contact">
-         <button class="green-btn"><a href="edit.php">Fiche de Contact</a></button> 
+          <img src="Phone customization-bro.png" alt="Fiche de Contact">
+         <button class="green-btn"><a href="edit.php"  >Fiche de Contact</a></button> 
         </div>
         <div class="option">
-          <img src="./undraw_Profile_data_re_v81r.png" alt="Formulaire de Contact">
-          <button class="green-btn"><a href="ajax.php">Formulaire de Contact</a></button>
+          <img  src="Calling-pana (1).png" alt="Formulaire de Contact">
+          <button class="green-btn"><a href="ajax.php"  >Formulaire de Contact</a></button>
         </div>
         <script>
-      document.addEventListener("DOMContentLoaded", function() {
-    const title = document.querySelector(".welcome h1");
-    title.classList.add("loaded");
-});
+          document.addEventListener("DOMContentLoaded", function()
+           {
+          const title = document.querySelector(".welcome h1");
+          title.classList.add("loaded");
+           });
+
+         
+
+
 
     </script>
 </body>
